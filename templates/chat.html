@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Chatbot Assistant</title>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #f9fafb, #eef2ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    #chat-box {
+      width: 90%;
+      max-width: 720px;
+      background: #ffffff;
+      padding: 28px 24px 20px;
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: #1e3a8a;
+      font-size: 1.6em;
+      margin-bottom: 16px;
+    }
+
+    #messages {
+      height: 420px;
+      overflow-y: auto;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 14px;
+      background: #f9fafb;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .user, .bot {
+      margin: 8px 0;
+      display: flex;
+    }
+
+    .user {
+      justify-content: flex-end;
+    }
+
+    .user div {
+      background: #2563eb;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 12px 12px 0 12px;
+      max-width: 70%;
+      font-size: 0.96em;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.2);
+    }
+
+    .bot {
+      justify-content: flex-start;
+    }
+
+    .bot div {
+      background: #e0e7ff;
+      color: #111827;
+      padding: 10px 14px;
+      border-radius: 12px 12px 12px 0;
+      max-width: 70%;
+      font-size: 0.96em;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    input {
+      flex-grow: 1;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #c7d2fe;
+      background: #f3f4f6;
+      font-size: 1em;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      border: 1px solid #3b82f6;
+      background: #fff;
+    }
+
+    button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      background: #1e40af;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    #ai-agent-fab {
+      position: fixed;
+      right: 32px;
+      bottom: 32px;
+      z-index: 1000;
+    }
+
+    #ai-agent-fab img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.18);
+      background: #fff;
+      animation: agent-bounce 1.2s infinite alternate;
+      cursor: pointer;
+    }
+
+    @keyframes agent-bounce {
+      0% { transform: translateY(0) scale(1); }
+      60% { transform: translateY(-10px) scale(1.08); }
+      100% { transform: translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chat-box">
+    <h2>
+      <img src="{{ url_for('static', filename='ai_agent.svg') }}" alt="AI Agent"
+           style="width:38px; height:38px; vertical-align:middle; animation: agent-bounce 1.2s infinite alternate;">
+      AI Assistant
+    </h2>
+
+    <div id="messages"></div>
+
+    <div class="input-row">
+      <input type="text" id="user-input" placeholder="Ask something..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Floating AI Agent Button -->
+  <div id="ai-agent-fab">
+    <img src="{{ url_for('static', filename='ai_agent.svg') }}" alt="AI Agent" onclick="scrollToChat()">
+  </div>
+
+  <script>
+    function scrollToChat() {
+      document.getElementById('chat-box').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("user-input");
+      const message = input.value.trim();
+      if (!message) return;
+
+      const messagesDiv = document.getElementById("messages");
+      messagesDiv.innerHTML += `<div class="user"><div>${message}</div></div>`;
+      input.value = "";
+
+      const response = await fetch("/chatbot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+
+      const data = await response.json();
+      messagesDiv.innerHTML += `<div class="bot"><div>${data.response}</div></div>`;
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+  </script>
+</body>
+</html>

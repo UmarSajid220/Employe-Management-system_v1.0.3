@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .form-card {
+    width: 100%;
+    max-width: 480px;
+    margin: 100px auto 40px;
+    padding: 40px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.15);
+    text-align: center;
+  }
+
+  .form-card h2 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+  }
+
+  .form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .form-card input,
+  .form-card select,
+  .form-card textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1.05em;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.12);
+    color: #f1f5f9;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .form-card input::placeholder,
+  .form-card textarea::placeholder {
+    color: rgba(241,245,249,0.6);
+  }
+
+  .form-card input:focus,
+  .form-card textarea:focus,
+  .form-card select:focus {
+    border-color: #60a5fa;
+    background: rgba(255,255,255,0.16);
+  }
+
+  .form-card .btn-blue {
+    width: 100%;
+    font-size: 1.1em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    background: linear-gradient(90deg, #3b82f6 0%, #6366f1 100%);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(99,102,241,0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .form-card .btn-blue:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(99,102,241,0.35);
+  }
+
+  .form-card a.btn-blue {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 1em;
+    padding: 10px 22px;
+    text-decoration: none;
+  }
+
+  .message {
+    color: #93c5fd;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 600px) {
+    .form-card {
+      margin: 60px 16px;
+      padding: 28px 18px;
+    }
+  }
+</style>
+
+<div class="form-card">
+  <h2>Assign New Task</h2>
+
+  {% if message %}
+    <p class="message">{{ message }}</p>
+  {% endif %}
+
+  <form method="post">
+    <input name="employee" placeholder="Employee Username" required>
+    <input name="title" placeholder="Task Title" required>
+    <textarea name="explanation" placeholder="Task Explanation" rows="3" required></textarea>
+    <select name="priority" required>
+      <option value="">Select Priority</option>
+      <option value="High">High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low">Low</option>
+    </select>
+    <input type="date" name="deadline" required>
+    <input type="submit" value="Assign Task" class="btn-blue">
+  </form>
+
+  <a href="/admin" class="btn-blue">Back to Dashboard</a>
+</div>
+{% endblock %}
