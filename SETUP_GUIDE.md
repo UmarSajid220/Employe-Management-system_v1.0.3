@@ -34,8 +34,8 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/a-square-skills-ems.git
-cd a-square-skills-ems
+git clone https://github.com/UmarSajid220/Employe-Management-system_v1.0.3.git
+cd A-Square-Academy_Employe-Management-system_v1.0.13
 ```
 
 ### 2. Create Virtual Environment
@@ -56,9 +56,6 @@ cd backend
 
 # Install Python dependencies
 pip install -r requirements.txt
-
-# Install test dependencies
-pip install -r ../tests/requirements.txt
 ```
 
 ### 4. Install Frontend Dependencies (Optional)
