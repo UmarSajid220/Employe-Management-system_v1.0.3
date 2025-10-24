@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - A Square Skills Academy EMS</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-stone-50 to-amber-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-white text-sm"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-stone-800">A Square Skills Academy</span>
+                    </div>
+                    <span class="text-sm text-stone-500">Employee Portal</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-amber-600 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-stone-700" id="userName">Employee User</span>
+                    </div>
+                    <button id="logoutBtn" class="text-stone-500 hover:text-stone-700 transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Welcome Section -->
+        <div class="mb-8">
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-stone-800 mb-2">Good <span id="timeOfDay">morning</span>, <span id="employeeName">John Doe</span>!</h1>
+                        <p class="text-stone-600">Welcome to your employee dashboard. Here's what's happening today.</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm text-stone-500 mb-1">Today's Date</div>
+                        <div class="text-lg font-semibold text-stone-800" id="currentDate">October 25, 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-clock text-green-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Active</span>
+                </div>
+                <h3 class="font-semibold text-stone-800 mb-2">Clock In/Out</h3>
+                <p class="text-sm text-stone-600 mb-4">Track your work hours and attendance</p>
+                <button id="clockToggleBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-play mr-2"></i>Clock In
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-tasks text-blue-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full" id="pendingTasksCount">3</span>
+                </div>
+                <h3 class="font-semibold text-stone-800 mb-2">My Tasks</h3>
+                <p class="text-sm text-stone-600 mb-4">View and manage your assigned tasks</p>
+                <a href="my-tasks.html" class="block w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center">
+                    <i class="fas fa-arrow-right mr-2"></i>View Tasks
+                </a>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-calendar-alt text-purple-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">12 Days</span>
+                </div>
+                <h3 class="font-semibold text-stone-800 mb-2">Leave Balance</h3>
+                <p class="text-sm text-stone-600 mb-4">Check your remaining leave days</p>
+                <a href="my-leaves.html" class="block w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center">
+                    <i class="fas fa-plus mr-2"></i>Apply Leave
+                </a>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-chart-line text-orange-600 text-xl"></i>
+                    </div>
+                    <span class="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">This Month</span>
+                </div>
+                <h3 class="font-semibold text-stone-800 mb-2">My Performance</h3>
+                <p class="text-sm text-stone-600 mb-4">View your performance metrics</p>
+                <a href="my-performance.html" class="block w-full bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg font-medium transition-colors text-center">
+                    <i class="fas fa-eye mr-2"></i>View Details
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Today's Schedule -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-semibold text-stone-800">Today's Schedule</h2>
+                        <a href="my-attendance.html" class="text-amber-600 hover:text-amber-700 text-sm font-medium">View All</a>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-play text-green-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800">Clocked In</h4>
+                                <p class="text-sm text-stone-600">Started work at 9:00 AM</p>
+                            </div>
+                            <div class="text-sm text-green-600 font-medium">2 hours ago</div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-tasks text-blue-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800">Team Meeting</h4>
+                                <p class="text-sm text-stone-600">Project status update meeting</p>
+                            </div>
+                            <div class="text-sm text-blue-600 font-medium">11:00 AM</div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-graduation-cap text-purple-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800">Training Session</h4>
+                                <p class="text-sm text-stone-600">Advanced JavaScript Workshop</p>
+                            </div>
+                            <div class="text-sm text-purple-600 font-medium">2:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Tasks -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-semibold text-stone-800">Recent Tasks</h2>
+                        <a href="my-tasks.html" class="text-amber-600 hover:text-amber-700 text-sm font-medium">View All</a>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4 p-4 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800">Update student portal UI</h4>
+                                <p class="text-sm text-stone-600">Frontend development task</p>
+                            </div>
+                            <div class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">In Progress</div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800">Review course materials</h4>
+                                <p class="text-sm text-stone-600">Content review and feedback</p>
+                            </div>
+                            <div class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Pending</div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4 p-4 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors">
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800">Fix login authentication bug</h4>
+                                <p class="text-sm text-stone-600">Bug fix and testing</p>
+                            </div>
+                            <div class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Completed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Attendance Summary -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">This Week</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-stone-600">Hours Worked</span>
+                            <span class="font-semibold text-stone-800">32.5h</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-stone-600">Days Present</span>
+                            <span class="font-semibold text-green-600">4/5</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-stone-600">Late Arrivals</span>
+                            <span class="font-semibold text-amber-600">1</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-stone-600">Overtime</span>
+                            <span class="font-semibold text-blue-600">2.5h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Quick Stats</h3>
+                    <div class="space-y-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600" id="currentMonthHours">142</div>
+                            <div class="text-sm text-stone-600">Hours This Month</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600" id="completedTasks">18</div>
+                            <div class="text-sm text-stone-600">Tasks Completed</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-600" id="leaveBalance">12</div>
+                            <div class="text-sm text-stone-600">Leave Days Left</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Updates -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Team Updates</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mt-1">
+                                <i class="fas fa-bullhorn text-green-600 text-xs"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-stone-800">New training session scheduled for next week</p>
+                                <p class="text-xs text-stone-500">2 hours ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1">
+                                <i class="fas fa-calendar-check text-blue-600 text-xs"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-stone-800">Team building event this Friday</p>
+                                <p class="text-xs text-stone-500">1 day ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mt-1">
+                                <i class="fas fa-award text-purple-600 text-xs"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-stone-800">Congratulations to Sarah for completing certification</p>
+                                <p class="text-xs text-stone-500">3 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // Employee Dashboard specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize time of day greeting
+            const hour = new Date().getHours();
+            const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
+            document.getElementById('timeOfDay').textContent = timeOfDay;
+
+            // Set current date
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', options);
+
+            // Clock In/Out functionality
+            let isClockedIn = false;
+            const clockToggleBtn = document.getElementById('clockToggleBtn');
+            
+            clockToggleBtn.addEventListener('click', function() {
+                if (!isClockedIn) {
+                    // Clock In
+                    isClockedIn = true;
+                    clockToggleBtn.innerHTML = '<i class="fas fa-stop mr-2"></i>Clock Out';
+                    clockToggleBtn.className = 'w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-medium transition-colors';
+                    showNotification('Successfully clocked in!', 'success');
+                } else {
+                    // Clock Out
+                    isClockedIn = false;
+                    clockToggleBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Clock In';
+                    clockToggleBtn.className = 'w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors';
+                    showNotification('Successfully clocked out!', 'success');
+                }
+            });
+
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                    type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+                    type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+                    'bg-blue-100 text-blue-800 border border-blue-200'
+                }`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

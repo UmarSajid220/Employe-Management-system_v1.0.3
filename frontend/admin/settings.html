@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - A Square Skills Academy EMS</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-stone-50 to-amber-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-white text-sm"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-stone-800">A Square Skills Academy</span>
+                    </div>
+                    <span class="text-sm text-stone-500">Employee Management System</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-amber-600 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-stone-700" id="userName">Admin User</span>
+                    </div>
+                    <button id="logoutBtn" class="text-stone-500 hover:text-stone-700 transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-stone-800 mb-2">System Settings</h1>
+            <p class="text-stone-600">Configure and manage your Employee Management System</p>
+        </div>
+
+        <!-- Settings Navigation -->
+        <div class="bg-white rounded-xl shadow-sm border border-stone-200 mb-8">
+            <div class="border-b border-stone-200">
+                <nav class="flex space-x-8 px-6">
+                    <button class="settings-tab active py-4 px-2 border-b-2 border-amber-500 text-amber-600 font-medium text-sm" data-tab="general">
+                        <i class="fas fa-cog mr-2"></i>General
+                    </button>
+                    <button class="settings-tab py-4 px-2 border-b-2 border-transparent text-stone-500 hover:text-stone-700 font-medium text-sm" data-tab="security">
+                        <i class="fas fa-shield-alt mr-2"></i>Security
+                    </button>
+                    <button class="settings-tab py-4 px-2 border-b-2 border-transparent text-stone-500 hover:text-stone-700 font-medium text-sm" data-tab="notifications">
+                        <i class="fas fa-bell mr-2"></i>Notifications
+                    </button>
+                    <button class="settings-tab py-4 px-2 border-b-2 border-transparent text-stone-500 hover:text-stone-700 font-medium text-sm" data-tab="integrations">
+                        <i class="fas fa-plug mr-2"></i>Integrations
+                    </button>
+                    <button class="settings-tab py-4 px-2 border-b-2 border-transparent text-stone-500 hover:text-stone-700 font-medium text-sm" data-tab="backup">
+                        <i class="fas fa-download mr-2"></i>Backup & Restore
+                    </button>
+                </nav>
+            </div>
+
+            <!-- General Settings -->
+            <div id="general-tab" class="settings-content p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Organization Details</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">Organization Name</label>
+                                <input type="text" id="orgName" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" value="A Square Skills Academy">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">Organization Type</label>
+                                <select id="orgType" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="education">Educational Institution</option>
+                                    <option value="corporate">Corporate</option>
+                                    <option value="nonprofit">Non-Profit</option>
+                                    <option value="government">Government</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">Time Zone</label>
+                                <select id="timezone" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="UTC">UTC (Coordinated Universal Time)</option>
+                                    <option value="EST">EST (Eastern Standard Time)</option>
+                                    <option value="PST">PST (Pacific Standard Time)</option>
+                                    <option value="GMT">GMT (Greenwich Mean Time)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">System Preferences</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Auto Clock Out</h4>
+                                    <p class="text-sm text-stone-600">Automatically clock out employees after work hours</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="autoClockOut" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Weekend Tracking</h4>
+                                    <p class="text-sm text-stone-600">Track attendance on weekends and holidays</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="weekendTracking" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-stone-200">
+                    <button id="saveGeneralSettings" class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div id="security-tab" class="settings-content p-6 hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Authentication Settings</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Two-Factor Authentication</h4>
+                                    <p class="text-sm text-stone-600">Require 2FA for all users</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="require2FA" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Password Complexity</h4>
+                                    <p class="text-sm text-stone-600">Enforce strong password requirements</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="passwordComplexity" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Session Management</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">Session Timeout (minutes)</label>
+                                <select id="sessionTimeout" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="30">30 minutes</option>
+                                    <option value="60" selected>1 hour</option>
+                                    <option value="120">2 hours</option>
+                                    <option value="480">8 hours</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">IP Restriction</h4>
+                                    <p class="text-sm text-stone-600">Restrict access to specific IP ranges</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="ipRestriction" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-stone-200">
+                    <button id="saveSecuritySettings" class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        Save Security Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notifications Settings -->
+            <div id="notifications-tab" class="settings-content p-6 hidden">
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Email Notifications</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Daily Attendance Summary</h4>
+                                    <p class="text-sm text-stone-600">Send daily attendance reports to managers</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="dailyAttendance" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Leave Requests</h4>
+                                    <p class="text-sm text-stone-600">Notify managers of new leave requests</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="leaveRequests" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Task Deadlines</h4>
+                                    <p class="text-sm text-stone-600">Send reminders for upcoming task deadlines</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="taskDeadlines" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">SMS Notifications</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Late Arrival Alerts</h4>
+                                    <p class="text-sm text-stone-600">Send SMS for late arrivals to managers</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="lateArrivalSMS" class="sr-only peer">
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-stone-200">
+                    <button id="saveNotificationSettings" class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        Save Notification Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Integrations Settings -->
+            <div id="integrations-tab" class="settings-content p-6 hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-stone-50 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Email Service</h4>
+                                    <p class="text-sm text-stone-600">SendGrid Integration</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Connected</span>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4">Configure your email service for notifications and reports.</p>
+                        <button class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            Configure
+                        </button>
+                    </div>
+                    
+                    <div class="bg-stone-50 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-sms text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-stone-800">SMS Service</h4>
+                                    <p class="text-sm text-stone-600">Twilio Integration</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-stone-200 text-stone-600 text-xs rounded-full">Not Connected</span>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4">Set up SMS notifications for urgent alerts and updates.</p>
+                        <button class="bg-stone-600 hover:bg-stone-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            Connect
+                        </button>
+                    </div>
+                    
+                    <div class="bg-stone-50 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-calendar text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Calendar</h4>
+                                    <p class="text-sm text-stone-600">Google Calendar</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-stone-200 text-stone-600 text-xs rounded-full">Not Connected</span>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4">Sync leave requests and events with Google Calendar.</p>
+                        <button class="bg-stone-600 hover:bg-stone-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            Connect
+                        </button>
+                    </div>
+                    
+                    <div class="bg-stone-50 rounded-lg p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-chart-line text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Analytics</h4>
+                                    <p class="text-sm text-stone-600">Google Analytics</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-stone-200 text-stone-600 text-xs rounded-full">Not Connected</span>
+                        </div>
+                        <p class="text-sm text-stone-600 mb-4">Track system usage and user behavior analytics.</p>
+                        <button class="bg-stone-600 hover:bg-stone-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            Connect
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Backup & Restore Settings -->
+            <div id="backup-tab" class="settings-content p-6 hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Backup Configuration</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">Backup Frequency</label>
+                                <select id="backupFrequency" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="daily" selected>Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">Retention Period</label>
+                                <select id="retentionPeriod" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                                    <option value="30">30 days</option>
+                                    <option value="90" selected>90 days</option>
+                                    <option value="365">1 year</option>
+                                    <option value="forever">Forever</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Auto Backup</h4>
+                                    <p class="text-sm text-stone-600">Automatically backup data according to schedule</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="autoBackup" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-stone-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Recent Backups</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Full System Backup</h4>
+                                    <p class="text-sm text-stone-600">Created on Oct 24, 2025 at 2:00 AM</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-amber-600 hover:text-amber-700 text-sm font-medium">Download</button>
+                                    <button class="text-stone-600 hover:text-stone-700 text-sm font-medium">Restore</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Database Backup</h4>
+                                    <p class="text-sm text-stone-600">Created on Oct 23, 2025 at 2:00 AM</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-amber-600 hover:text-amber-700 text-sm font-medium">Download</button>
+                                    <button class="text-stone-600 hover:text-stone-700 text-sm font-medium">Restore</button>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-stone-50 rounded-lg">
+                                <div>
+                                    <h4 class="font-medium text-stone-800">Files Backup</h4>
+                                    <p class="text-sm text-stone-600">Created on Oct 22, 2025 at 2:00 AM</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-amber-600 hover:text-amber-700 text-sm font-medium">Download</button>
+                                    <button class="text-stone-600 hover:text-stone-700 text-sm font-medium">Restore</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-stone-200 flex space-x-4">
+                    <button id="createBackup" class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        Create Backup Now
+                    </button>
+                    <button id="restoreFromFile" class="bg-stone-600 hover:bg-stone-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                        Restore from File
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // Settings page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabButtons = document.querySelectorAll('.settings-tab');
+            const tabContents = document.querySelectorAll('.settings-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabName = button.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'border-amber-500', 'text-amber-600');
+                        btn.classList.add('border-transparent', 'text-stone-500');
+                    });
+                    button.classList.add('active', 'border-amber-500', 'text-amber-600');
+                    button.classList.remove('border-transparent', 'text-stone-500');
+                    
+                    // Show corresponding content
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+                });
+            });
+
+            // Save settings functionality
+            document.getElementById('saveGeneralSettings').addEventListener('click', function() {
+                const settings = {
+                    orgName: document.getElementById('orgName').value,
+                    orgType: document.getElementById('orgType').value,
+                    timezone: document.getElementById('timezone').value,
+                    autoClockOut: document.getElementById('autoClockOut').checked,
+                    weekendTracking: document.getElementById('weekendTracking').checked
+                };
+                
+                // Simulate API call
+                showNotification('General settings saved successfully!', 'success');
+            });
+
+            document.getElementById('saveSecuritySettings').addEventListener('click', function() {
+                showNotification('Security settings saved successfully!', 'success');
+            });
+
+            document.getElementById('saveNotificationSettings').addEventListener('click', function() {
+                showNotification('Notification settings saved successfully!', 'success');
+            });
+
+            // Backup functionality
+            document.getElementById('createBackup').addEventListener('click', function() {
+                showNotification('Backup creation started. This may take a few minutes.', 'info');
+            });
+
+            document.getElementById('restoreFromFile').addEventListener('click', function() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json,.backup';
+                input.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        showNotification('Restore process initiated. Please wait...', 'info');
+                    }
+                };
+                input.click();
+            });
+
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                    type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+                    type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+                    'bg-blue-100 text-blue-800 border border-blue-200'
+                }`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found - A Square Skills Academy EMS</title>
+    <meta name="description" content="Page not found - A Square Skills Academy Employee Management System">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+    
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--color-primary-beige) 0%, #f0f0f0 100%);
+            padding: var(--space-4);
+        }
+        
+        .error-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: var(--space-16);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .error-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--color-neutral);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-8);
+            color: var(--color-text-muted);
+        }
+        
+        .error-title {
+            font-size: var(--font-size-4xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-dark-navy);
+            margin-bottom: var(--space-4);
+        }
+        
+        .error-subtitle {
+            font-size: var(--font-size-xl);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-6);
+        }
+        
+        .error-description {
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-8);
+            line-height: 1.6;
+        }
+        
+        .error-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+        
+        @media (min-width: 640px) {
+            .error-actions {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="error-container">
+        <div class="error-card">
+            <div class="error-icon">
+                <iconify-icon icon="mdi:magnify" width="60" height="60"></iconify-icon>
+            </div>
+            
+            <h1 class="error-title">404</h1>
+            <h2 class="error-subtitle">Page Not Found</h2>
+            
+            <p class="error-description">
+                Sorry, the page you're looking for doesn't exist. It might have been moved, deleted, or you entered the wrong URL.
+            </p>
+            
+            <div class="error-actions">
+                <button onclick="history.back()" class="btn btn-secondary">
+                    <iconify-icon icon="mdi:arrow-left" width="20" height="20"></iconify-icon>
+                    <span class="ml-2">Go Back</span>
+                </button>
+                
+                <a href="/index.html" class="btn btn-primary">
+                    <iconify-icon icon="mdi:home" width="20" height="20"></iconify-icon>
+                    <span class="ml-2">Go to Login</span>
+                </a>
+            </div>
+            
+            <div class="mt-8 text-sm text-muted">
+                <p>If you believe this is an error, please contact your system administrator.</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Alt + Home to go to login
+                if (e.altKey && e.key === 'Home') {
+                    e.preventDefault();
+                    window.location.href = '/index.html';
+                }
+                
+                // Alt + Left Arrow to go back
+                if (e.altKey && e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    history.back();
+                }
+            });
+            
+            // Add click animation to error icon
+            const errorIcon = document.querySelector('.error-icon');
+            errorIcon.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

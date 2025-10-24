@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Leaves - A Square Skills Academy EMS</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-stone-50 to-amber-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-white text-sm"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-stone-800">A Square Skills Academy</span>
+                    </div>
+                    <span class="text-sm text-stone-500">Employee Portal</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-amber-600 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-stone-700" id="userName">Employee User</span>
+                    </div>
+                    <button id="logoutBtn" class="text-stone-500 hover:text-stone-700 transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-stone-800 mb-2">My Leaves</h1>
+                <p class="text-stone-600">Manage your leave requests and track your leave balance</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-stone-600">Filter by status:</span>
+                    <select id="statusFilter" class="px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                        <option value="all">All Leaves</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <button id="applyLeaveBtn" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Apply Leave
+                </button>
+            </div>
+        </div>
+
+        <!-- Leave Balance -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-green-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-green-600" id="annualLeaveBalance">12</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Annual Leave</h3>
+                <p class="text-sm text-stone-600">Days remaining</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-heartbeat text-blue-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-blue-600" id="sickLeaveBalance">8</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Sick Leave</h3>
+                <p class="text-sm text-stone-600">Days remaining</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-purple-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-purple-600" id="studyLeaveBalance">5</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Study Leave</h3>
+                <p class="text-sm text-stone-600">Days remaining</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-home text-orange-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-orange-600" id="compassionateLeaveBalance">3</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Compassionate</h3>
+                <p class="text-sm text-stone-600">Days remaining</p>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Leave Requests -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200">
+                    <div class="p-6 border-b border-stone-200">
+                        <h2 class="text-lg font-semibold text-stone-800">Leave Requests</h2>
+                    </div>
+                    <div class="divide-y divide-stone-200">
+                        <!-- Leave Request 1 -->
+                        <div class="p-6 hover:bg-stone-50 transition-colors leave-request" data-status="approved">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-calendar-check text-green-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-semibold text-stone-800">Annual Leave - Vacation</h3>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Approved</span>
+                                            <button class="text-stone-400 hover:text-stone-600">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-stone-600 mb-3">Family vacation to visit relatives in another city</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-4 text-sm text-stone-500">
+                                            <span><i class="fas fa-calendar mr-1"></i>Nov 15 - Nov 19, 2025</span>
+                                            <span><i class="fas fa-clock mr-1"></i>5 days</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-sm text-stone-600">Applied on Oct 20, 2025</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 text-sm text-stone-600">
+                                        <span class="font-medium">Approved by:</span> Sarah Johnson (Manager)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Leave Request 2 -->
+                        <div class="p-6 hover:bg-stone-50 transition-colors leave-request" data-status="pending">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-heartbeat text-blue-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-semibold text-stone-800">Sick Leave - Medical Appointment</h3>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Pending</span>
+                                            <button class="text-stone-400 hover:text-stone-600">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-stone-600 mb-3">Medical checkup and dental appointment</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-4 text-sm text-stone-500">
+                                            <span><i class="fas fa-calendar mr-1"></i>Oct 28, 2025</span>
+                                            <span><i class="fas fa-clock mr-1"></i>1 day</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-sm text-stone-600">Applied on Oct 25, 2025</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Leave Request 3 -->
+                        <div class="p-6 hover:bg-stone-50 transition-colors leave-request" data-status="approved">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-graduation-cap text-purple-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-semibold text-stone-800">Study Leave - Certification Exam</h3>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Approved</span>
+                                            <button class="text-stone-400 hover:text-stone-600">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-stone-600 mb-3">AWS Cloud Practitioner certification exam preparation</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-4 text-sm text-stone-500">
+                                            <span><i class="fas fa-calendar mr-1"></i>Oct 15 - Oct 17, 2025</span>
+                                            <span><i class="fas fa-clock mr-1"></i>3 days</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-sm text-stone-600">Applied on Oct 10, 2025</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 text-sm text-stone-600">
+                                        <span class="font-medium">Approved by:</span> Mike Chen (Team Lead)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Leave Request 4 -->
+                        <div class="p-6 hover:bg-stone-50 transition-colors leave-request" data-status="rejected">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-home text-red-600"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-semibold text-stone-800">Compassionate Leave - Family Emergency</h3>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">Rejected</span>
+                                            <button class="text-stone-400 hover:text-stone-600">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-stone-600 mb-3">Family member hospitalization</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-4 text-sm text-stone-500">
+                                            <span><i class="fas fa-calendar mr-1"></i>Oct 5 - Oct 7, 2025</span>
+                                            <span><i class="fas fa-clock mr-1"></i>3 days</span>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-sm text-stone-600">Applied on Oct 3, 2025</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 text-sm text-stone-600">
+                                        <span class="font-medium">Reason:</span> Insufficient documentation provided
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Leave Balance Chart -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Leave Balance</h3>
+                    <div class="h-48">
+                        <canvas id="leaveBalanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">This Year</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Total Leaves</span>
+                            <span class="font-semibold text-stone-800">28</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Used</span>
+                            <span class="font-semibold text-amber-600">16</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Remaining</span>
+                            <span class="font-semibold text-green-600">12</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Approval Rate</span>
+                            <span class="font-semibold text-blue-600">87%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leave Policies -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Leave Policies</h3>
+                    <div class="space-y-3 text-sm text-stone-600">
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-calendar-alt text-green-500 mt-0.5"></i>
+                            <span>Apply at least 3 days in advance</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-file-medical text-blue-500 mt-0.5"></i>
+                            <span>Medical certificate required for sick leave > 2 days</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-graduation-cap text-purple-500 mt-0.5"></i>
+                            <span>Study leave requires course documentation</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-home text-orange-500 mt-0.5"></i>
+                            <span>Compassionate leave up to 3 days per incident</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Holidays -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Upcoming Holidays</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-calendar text-blue-600 text-xs"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800 text-sm">Diwali</h4>
+                                <p class="text-xs text-stone-600">Nov 1, 2025</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-calendar text-green-600 text-xs"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-medium text-stone-800 text-sm">Christmas</h4>
+                                <p class="text-xs text-stone-600">Dec 25, 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Leave Modal -->
+    <div id="applyLeaveModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-stone-800">Apply for Leave</h3>
+                    <button id="closeLeaveModal" class="text-stone-400 hover:text-stone-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="applyLeaveForm">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-2">Leave Type</label>
+                            <select id="leaveType" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" required>
+                                <option value="">Select leave type</option>
+                                <option value="annual">Annual Leave</option>
+                                <option value="sick">Sick Leave</option>
+                                <option value="study">Study Leave</option>
+                                <option value="compassionate">Compassionate Leave</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">Start Date</label>
+                                <input type="date" id="startDate" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-stone-700 mb-2">End Date</label>
+                                <input type="date" id="endDate" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-2">Reason</label>
+                            <textarea id="leaveReason" rows="3" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" placeholder="Please provide a detailed reason for your leave request" required></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-stone-700 mb-2">Contact During Leave</label>
+                            <input type="tel" id="contactNumber" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" placeholder="Your contact number">
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end space-x-3 mt-6">
+                        <button type="button" id="cancelLeave" class="px-4 py-2 text-stone-600 hover:text-stone-800 transition-colors">Cancel</button>
+                        <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // My Leaves page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize leave balance chart
+            const ctx = document.getElementById('leaveBalanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Used', 'Remaining'],
+                    datasets: [{
+                        data: [16, 12],
+                        backgroundColor: ['#EF4444', '#10B981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 10,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Status filter functionality
+            const statusFilter = document.getElementById('statusFilter');
+            const leaveRequests = document.querySelectorAll('.leave-request');
+
+            statusFilter.addEventListener('change', function() {
+                const selectedStatus = this.value;
+                
+                leaveRequests.forEach(item => {
+                    if (selectedStatus === 'all' || item.dataset.status === selectedStatus) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+
+            // Apply leave modal functionality
+            const applyLeaveBtn = document.getElementById('applyLeaveBtn');
+            const applyLeaveModal = document.getElementById('applyLeaveModal');
+            const closeLeaveModal = document.getElementById('closeLeaveModal');
+            const cancelLeave = document.getElementById('cancelLeave');
+            const applyLeaveForm = document.getElementById('applyLeaveForm');
+
+            applyLeaveBtn.addEventListener('click', function() {
+                applyLeaveModal.classList.remove('hidden');
+            });
+
+            closeLeaveModal.addEventListener('click', function() {
+                applyLeaveModal.classList.add('hidden');
+            });
+
+            cancelLeave.addEventListener('click', function() {
+                applyLeaveModal.classList.add('hidden');
+            });
+
+            applyLeaveForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const leaveType = document.getElementById('leaveType').value;
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const reason = document.getElementById('leaveReason').value;
+                
+                // Simulate applying for leave
+                showNotification('Leave request submitted successfully!', 'success');
+                applyLeaveModal.classList.add('hidden');
+                applyLeaveForm.reset();
+            });
+
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                    type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+                    type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+                    'bg-blue-100 text-blue-800 border border-blue-200'
+                }`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

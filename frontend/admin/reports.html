@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - A Square Skills Academy EMS</title>
+    <meta name="description" content="Reports - A Square Skills Academy Employee Management System">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/styles.css">
+    
+    <!-- Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+</head>
+<body>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Alert Container -->
+    <div class="alert-container"></div>
+    
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-dark-navy rounded-lg flex items-center justify-center text-accent-gold font-bold text-lg">
+                    AS
+                </div>
+                <div>
+                    <div class="font-bold text-dark-navy">A Square Skills</div>
+                    <div class="text-sm text-muted">Academy EMS</div>
+                </div>
+            </div>
+        </div>
+        
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="dashboard.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:view-dashboard" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="employees.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:account-group" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Employees</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="tasks.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:clipboard-check" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Tasks</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="attendance.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:clock-time-eight" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Attendance</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="leaves.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:calendar-remove" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Leaves</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="reports.html" class="sidebar-nav-link active">
+                    <iconify-icon icon="mdi:file-chart" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Reports</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="settings.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:cog" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Settings</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="mt-auto pt-6 border-t border-neutral">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-neutral rounded-full flex items-center justify-center">
+                    <iconify-icon icon="mdi:account" width="20" height="20"></iconify-icon>
+                </div>
+                <div>
+                    <div class="font-medium text-sm" data-user-name>Admin</div>
+                    <div class="text-xs text-muted" data-user-role>Administrator</div>
+                </div>
+            </div>
+            <button class="w-full btn btn-secondary btn-sm" data-logout>
+                <iconify-icon icon="mdi:logout" width="16" height="16"></iconify-icon>
+                <span class="ml-2">Logout</span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-dark-navy">Reports & Analytics</h1>
+                <p class="text-muted">Generate comprehensive reports and insights</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button class="btn btn-secondary btn-sm" data-theme-toggle title="Toggle theme">
+                    <iconify-icon icon="mdi:theme-light-dark" width="16" height="16"></iconify-icon>
+                </button>
+                <button class="btn btn-primary" id="generateReportBtn">
+                    <iconify-icon icon="mdi:file-chart" width="20" height="20"></iconify-icon>
+                    <span class="ml-2">Generate Report</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Report Templates -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="card hover:shadow-lg transition-shadow cursor-pointer" onclick="reportsManager.selectTemplate('employee_summary')">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-accent-gold rounded-lg flex items-center justify-center">
+                            <iconify-icon icon="mdi:account-group" width="24" height="24" class="text-dark-navy"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Employee Summary</h3>
+                            <p class="text-muted">Comprehensive employee overview</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Generate detailed reports on employee information, roles, departments, and status.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-muted">Last generated: Never</span>
+                        <button class="btn btn-sm btn-secondary">Generate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card hover:shadow-lg transition-shadow cursor-pointer" onclick="reportsManager.selectTemplate('attendance_report')">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-info rounded-lg flex items-center justify-center">
+                            <iconify-icon icon="mdi:clock-time-eight" width="24" height="24" class="text-white"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Attendance Report</h3>
+                            <p class="text-muted">Attendance tracking and analytics</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Detailed attendance records, punctuality analysis, and working hours summary.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-muted">Last generated: Never</span>
+                        <button class="btn btn-sm btn-secondary">Generate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card hover:shadow-lg transition-shadow cursor-pointer" onclick="reportsManager.selectTemplate('task_report')">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-success rounded-lg flex items-center justify-center">
+                            <iconify-icon icon="mdi:clipboard-check" width="24" height="24" class="text-white"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Task Report</h3>
+                            <p class="text-muted">Task performance and completion</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Task completion rates, productivity metrics, and project timeline analysis.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-muted">Last generated: Never</span>
+                        <button class="btn btn-sm btn-secondary">Generate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card hover:shadow-lg transition-shadow cursor-pointer" onclick="reportsManager.selectTemplate('leave_report')">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-warning rounded-lg flex items-center justify-center">
+                            <iconify-icon icon="mdi:calendar-remove" width="24" height="24" class="text-dark-navy"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Leave Report</h3>
+                            <p class="text-muted">Leave management and balance</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Leave utilization, balance tracking, and approval workflow analysis.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-muted">Last generated: Never</span>
+                        <button class="btn btn-sm btn-secondary">Generate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card hover:shadow-lg transition-shadow cursor-pointer" onclick="reportsManager.selectTemplate('performance_report')">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-danger rounded-lg flex items-center justify-center">
+                            <iconify-icon icon="mdi:trending-up" width="24" height="24" class="text-white"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Performance Report</h3>
+                            <p class="text-muted">Comprehensive performance analysis</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Overall performance metrics, KPI tracking, and improvement recommendations.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-muted">Last generated: Never</span>
+                        <button class="btn btn-sm btn-secondary">Generate</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card hover:shadow-lg transition-shadow cursor-pointer" onclick="reportsManager.selectTemplate('custom_report')">
+                <div class="card-body">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-dark-navy rounded-lg flex items-center justify-center">
+                            <iconify-icon icon="mdi:cog" width="24" height="24" class="text-accent-gold"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="card-title">Custom Report</h3>
+                            <p class="text-muted">Build your own report</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-4">Create custom reports with specific filters, date ranges, and data parameters.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-muted">Last generated: Never</span>
+                        <button class="btn btn-sm btn-secondary">Generate</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Report Configuration -->
+        <section class="card mb-8" id="reportConfig" style="display: none;">
+            <div class="card-header">
+                <h3 class="card-title">Report Configuration</h3>
+                <p class="text-muted">Configure your report parameters</p>
+            </div>
+            <div class="card-body">
+                <form id="reportForm">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="form-group">
+                            <label for="reportType" class="form-label">Report Type</label>
+                            <input type="text" id="reportType" name="report_type" class="form-control" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateFrom" class="form-label">Date From</label>
+                            <input type="date" id="dateFrom" name="date_from" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="dateTo" class="form-label">Date To</label>
+                            <input type="date" id="dateTo" name="date_to" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="employee" class="form-label">Employee (Optional)</label>
+                            <select id="employee" name="user_id" class="form-control">
+                                <option value="">All Employees</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="department" class="form-label">Department (Optional)</label>
+                            <select id="department" name="department" class="form-control">
+                                <option value="">All Departments</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Human Resources">Human Resources</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Design">Design</option>
+                                <option value="Sales">Sales</option>
+                                <option value="IT">IT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="format" class="form-label">Export Format</label>
+                            <select id="format" name="format" class="form-control">
+                                <option value="pdf">PDF</option>
+                                <option value="csv">CSV</option>
+                                <option value="json">JSON</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button" class="btn btn-secondary" id="cancelReportBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="generateReportSubmit">
+                            <span id="generateText">Generate Report</span>
+                            <span id="generateLoading" class="hidden">
+                                <span class="loading"></span> Generating...
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+        <!-- Recent Reports -->
+        <section class="card">
+            <div class="card-header flex items-center justify-between">
+                <div>
+                    <h3 class="card-title">Recent Reports</h3>
+                    <p class="text-muted">Your recently generated reports</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="refreshReportsBtn">
+                    <iconify-icon icon="mdi:refresh" width="16" height="16"></iconify-icon>
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="overflow-x-auto">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Report Type</th>
+                                <th>Generated On</th>
+                                <th>Parameters</th>
+                                <th>Format</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTableBody">
+                            <tr>
+                                <td colspan="6" class="text-center py-8">
+                                    <div class="loading"></div>
+                                    <span class="text-muted ml-2">Loading recent reports...</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden lg:hidden"></div>
+    
+    <!-- Scripts -->
+    <script src="../js/app.js"></script>
+    
+    <script>
+        class ReportsManager {
+            constructor() {
+                this.app = window.emsApp;
+                this.employees = [];
+                this.selectedTemplate = null;
+                this.init();
+            }
+            
+            async init() {
+                await this.loadEmployees();
+                this.setupEventListeners();
+                this.loadRecentReports();
+            }
+            
+            async loadEmployees() {
+                try {
+                    const response = await fetch('/api/v1/employees', {
+                        headers: this.app.getAuthHeaders()
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.employees = data.items;
+                        this.populateEmployeeSelect();
+                    }
+                } catch (error) {
+                    console.error('Error loading employees:', error);
+                }
+            }
+            
+            populateEmployeeSelect() {
+                const employeeSelect = document.getElementById('employee');
+                const options = this.employees.map(emp => 
+                    `<option value="${emp.id}">${emp.name}</option>`
+                ).join('');
+                
+                employeeSelect.innerHTML = '<option value="">All Employees</option>' + options;
+            }
+            
+            setupEventListeners() {
+                // Report generation
+                document.getElementById('generateReportBtn').addEventListener('click', () => {
+                    this.showReportConfig();
+                });
+                
+                document.getElementById('cancelReportBtn').addEventListener('click', () => {
+                    this.hideReportConfig();
+                });
+                
+                document.getElementById('reportForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.generateReport();
+                });
+                
+                // Other controls
+                document.getElementById('refreshReportsBtn').addEventListener('click', () => {
+                    this.loadRecentReports();
+                });
+            }
+            
+            selectTemplate(templateId) {
+                this.selectedTemplate = templateId;
+                this.showReportConfig();
+                document.getElementById('reportType').value = templateId;
+            }
+            
+            showReportConfig() {
+                const configSection = document.getElementById('reportConfig');
+                configSection.style.display = 'block';
+                configSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            hideReportConfig() {
+                const configSection = document.getElementById('reportConfig');
+                configSection.style.display = 'none';
+                this.resetForm();
+            }
+            
+            resetForm() {
+                document.getElementById('reportForm').reset();
+                this.selectedTemplate = null;
+            }
+            
+            async generateReport() {
+                const form = document.getElementById('reportForm');
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                
+                // Remove empty fields
+                Object.keys(data).forEach(key => {
+                    if (!data[key]) {
+                        delete data[key];
+                    }
+                });
+                
+                const submitBtn = document.getElementById('generateReportSubmit');
+                const submitText = document.getElementById('generateText');
+                const submitLoading = document.getElementById('generateLoading');
+                
+                submitBtn.disabled = true;
+                submitText.classList.add('hidden');
+                submitLoading.classList.remove('hidden');
+                
+                try {
+                    const params = new URLSearchParams({
+                        report_type: data.report_type,
+                        format: data.format,
+                        ...data
+                    });
+                    
+                    const response = await fetch(`/api/v1/reports/export?${params}`, {
+                        headers: this.app.getAuthHeaders()
+                    });
+                    
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `report_${data.report_type}_${new Date().toISOString().split('T')[0]}.${data.format}`;
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        
+                        this.app.showAlert('Report generated successfully', 'success');
+                        this.hideReportConfig();
+                        this.loadRecentReports();
+                    } else {
+                        const error = await response.json();
+                        this.app.showAlert(error.detail || 'Failed to generate report', 'danger');
+                    }
+                    
+                } catch (error) {
+                    console.error('Error generating report:', error);
+                    this.app.showAlert('Failed to generate report', 'danger');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitText.classList.remove('hidden');
+                    submitLoading.classList.add('hidden');
+                }
+            }
+            
+            async loadRecentReports() {
+                try {
+                    // Mock recent reports data
+                    const mockReports = [
+                        {
+                            type: 'employee_summary',
+                            generated_on: new Date(Date.now() - 86400000).toISOString(),
+                            parameters: 'All departments, Active employees',
+                            format: 'PDF',
+                            status: 'Completed'
+                        },
+                        {
+                            type: 'attendance_report',
+                            generated_on: new Date(Date.now() - 172800000).toISOString(),
+                            parameters: 'Last 30 days, All employees',
+                            format: 'CSV',
+                            status: 'Completed'
+                        },
+                        {
+                            type: 'task_report',
+                            generated_on: new Date(Date.now() - 259200000).toISOString(),
+                            parameters: 'Engineering department, Q4 2025',
+                            format: 'PDF',
+                            status: 'Completed'
+                        }
+                    ];
+                    
+                    this.renderRecentReports(mockReports);
+                    
+                } catch (error) {
+                    console.error('Error loading recent reports:', error);
+                    this.app.showAlert('Failed to load recent reports', 'danger');
+                }
+            }
+            
+            renderRecentReports(reports) {
+                const tbody = document.getElementById('reportsTableBody');
+                
+                if (reports.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="text-center py-8">
+                                <iconify-icon icon="mdi:file-chart" width="48" height="48" class="text-muted"></iconify-icon>
+                                <p class="text-muted mt-2">No reports generated yet</p>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                tbody.innerHTML = reports.map(report => {
+                    const generatedDate = new Date(report.generated_on);
+                    
+                    let statusClass = '';
+                    switch (report.status.toLowerCase()) {
+                        case 'completed':
+                            statusClass = 'bg-success text-white';
+                            break;
+                        case 'processing':
+                            statusClass = 'bg-warning text-dark-navy';
+                            break;
+                        case 'failed':
+                            statusClass = 'bg-danger text-white';
+                            break;
+                        default:
+                            statusClass = 'bg-neutral text-dark-navy';
+                    }
+                    
+                    return `
+                        <tr>
+                            <td>
+                                <div class="font-medium capitalize">${report.type.replace('_', ' ')}</div>
+                            </td>
+                            <td>
+                                <div class="text-sm text-muted">
+                                    ${generatedDate.toLocaleDateString()} ${generatedDate.toLocaleTimeString()}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-sm text-muted max-w-xs">
+                                    ${report.parameters}
+                                </div>
+                            </td>
+                            <td>
+                                <span class="px-2 py-1 bg-info text-white rounded text-xs">
+                                    ${report.format}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="px-2 py-1 rounded text-xs ${statusClass}">
+                                    ${report.status}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="flex gap-2">
+                                    <button class="btn btn-sm btn-info" onclick="reportsManager.downloadReport('${report.type}')" title="Download">
+                                        <iconify-icon icon="mdi:download" width="16" height="16"></iconify-icon>
+                                    </button>
+                                    <button class="btn btn-sm btn-secondary" onclick="reportsManager.viewReport('${report.type}')" title="View">
+                                        <iconify-icon icon="mdi:eye" width="16" height="16"></iconify-icon>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" onclick="reportsManager.deleteReport('${report.type}')" title="Delete">
+                                        <iconify-icon icon="mdi:delete" width="16" height="16"></iconify-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+            
+            downloadReport(reportType) {
+                // Implementation for downloading report
+                console.log('Download report:', reportType);
+                this.app.showAlert('Report download started', 'info');
+            }
+            
+            viewReport(reportType) {
+                // Implementation for viewing report
+                console.log('View report:', reportType);
+                this.app.showAlert('Opening report viewer', 'info');
+            }
+            
+            deleteReport(reportType) {
+                if (!confirm('Are you sure you want to delete this report?')) {
+                    return;
+                }
+                
+                console.log('Delete report:', reportType);
+                this.app.showAlert('Report deleted successfully', 'success');
+                this.loadRecentReports();
+            }
+        }
+        
+        // Initialize reports manager
+        let reportsManager;
+        document.addEventListener('DOMContentLoaded', function() {
+            reportsManager = new ReportsManager();
+        });
+    </script>
+</body>
+</html>

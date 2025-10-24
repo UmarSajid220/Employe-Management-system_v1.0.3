@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - A Square Skills Academy EMS</title>
+    <meta name="description" content="Employee Management System Login for A Square Skills Academy">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        /* Login-specific styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--color-primary-beige) 0%, #f0f0f0 100%);
+            padding: var(--space-4);
+        }
+
+        .login-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: var(--space-12);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--color-dark-navy);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-6);
+            font-family: var(--font-secondary);
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-accent-gold);
+        }
+
+        .login-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-dark-navy);
+            margin-bottom: var(--space-2);
+        }
+
+        .login-subtitle {
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-8);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-6);
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-4);
+            border: 2px solid var(--color-neutral);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            transition: border-color var(--transition-fast);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-accent-gold);
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .form-check input {
+            margin-right: var(--space-2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--color-dark-navy);
+            color: var(--color-primary-beige);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-login:hover {
+            background: rgba(26, 26, 46, 0.9);
+            transform: translateY(-1px);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-footer {
+            margin-top: var(--space-6);
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        .alert-container {
+            position: fixed;
+            top: var(--space-4);
+            right: var(--space-4);
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: var(--space-8);
+                margin: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="alert-container"></div>
+    
+    <main class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                AS
+            </div>
+            
+            <h1 class="login-title">A Square Skills Academy</h1>
+            <p class="login-subtitle">Employee Management System</p>
+            
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" 
+                           placeholder="Enter your email" required 
+                           autocomplete="username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" 
+                           placeholder="Enter your password" required 
+                           autocomplete="current-password">
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="rememberMe" name="rememberMe">
+                    <label for="rememberMe">Remember me for 30 days</label>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    Sign In
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>© 2025 A Square Skills Academy. All rights reserved.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    
+    <script>
+        // Initialize login form
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(loginForm);
+                const email = formData.get('email');
+                const password = formData.get('password');
+                const rememberMe = formData.get('rememberMe') === 'on';
+                
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                
+                // Show loading state
+                submitBtn.innerHTML = '<span class="loading"></span> Signing in...';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Call the login method from the global app instance
+                    await window.emsApp.login(email, password, rememberMe);
+                } catch (error) {
+                    console.error('Login error:', error);
+                    window.emsApp.showAlert('An error occurred during login. Please try again.', 'danger');
+                    
+                    // Reset button state
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+            
+            // Add focus effects
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.parentElement.classList.remove('focused');
+                    }
+                });
+            });
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + Enter to submit form
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    loginForm.dispatchEvent(new Event('submit'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

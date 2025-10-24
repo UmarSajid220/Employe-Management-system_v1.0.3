@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Attendance - A Square Skills Academy EMS</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gradient-to-br from-stone-50 to-amber-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-sm border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-r from-amber-600 to-orange-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-white text-sm"></i>
+                        </div>
+                        <span class="text-lg font-semibold text-stone-800">A Square Skills Academy</span>
+                    </div>
+                    <span class="text-sm text-stone-500">Employee Portal</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-amber-600 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-stone-700" id="userName">Employee User</span>
+                    </div>
+                    <button id="logoutBtn" class="text-stone-500 hover:text-stone-700 transition-colors">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-stone-800 mb-2">My Attendance</h1>
+                <p class="text-stone-600">Track your work hours and attendance records</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <div class="text-sm text-stone-500">Current Status</div>
+                    <div class="text-lg font-semibold text-green-600" id="currentStatus">Clocked In</div>
+                </div>
+                <button id="clockToggleBtn" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-stop mr-2"></i>Clock Out
+                </button>
+            </div>
+        </div>
+
+        <!-- Attendance Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-clock text-green-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-green-600" id="totalHours">142.5</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Total Hours</h3>
+                <p class="text-sm text-stone-600">This month</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-calendar-check text-blue-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-blue-600" id="presentDays">22</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Present Days</h3>
+                <p class="text-sm text-stone-600">This month</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-clock text-amber-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-amber-600" id="lateDays">3</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Late Days</h3>
+                <p class="text-sm text-stone-600">This month</p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-plus-circle text-purple-600 text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-purple-600" id="overtimeHours">12.5</span>
+                </div>
+                <h3 class="font-semibold text-stone-800">Overtime</h3>
+                <p class="text-sm text-stone-600">This month</p>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Calendar View -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6 mb-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-semibold text-stone-800">October 2025</h2>
+                        <div class="flex items-center space-x-2">
+                            <button class="p-2 text-stone-400 hover:text-stone-600">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button class="p-2 text-stone-400 hover:text-stone-600">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Calendar Grid -->
+                    <div class="grid grid-cols-7 gap-1 mb-4">
+                        <!-- Weekdays -->
+                        <div class="p-2 text-center text-sm font-medium text-stone-600">Sun</div>
+                        <div class="p-2 text-center text-sm font-medium text-stone-600">Mon</div>
+                        <div class="p-2 text-center text-sm font-medium text-stone-600">Tue</div>
+                        <div class="p-2 text-center text-sm font-medium text-stone-600">Wed</div>
+                        <div class="p-2 text-center text-sm font-medium text-stone-600">Thu</div>
+                        <div class="p-2 text-center text-sm font-medium text-stone-600">Fri</div>
+                        <div class="p-2 text-center text-sm font-medium text-stone-600">Sat</div>
+                        
+                        <!-- Calendar Days -->
+                        <div class="p-2 text-center text-sm text-stone-400">29</div>
+                        <div class="p-2 text-center text-sm text-stone-400">30</div>
+                        <div class="p-2 text-center text-sm text-stone-600">1</div>
+                        <div class="p-2 text-center text-sm text-stone-600">2</div>
+                        <div class="p-2 text-center text-sm text-stone-600">3</div>
+                        <div class="p-2 text-center text-sm text-stone-600">4</div>
+                        <div class="p-2 text-center text-sm text-stone-600">5</div>
+                        
+                        <div class="p-2 text-center text-sm text-stone-600">6</div>
+                        <div class="p-2 text-center text-sm text-stone-600">7</div>
+                        <div class="p-2 text-center text-sm text-stone-600">8</div>
+                        <div class="p-2 text-center text-sm text-stone-600">9</div>
+                        <div class="p-2 text-center text-sm text-stone-600">10</div>
+                        <div class="p-2 text-center text-sm text-stone-600">11</div>
+                        <div class="p-2 text-center text-sm text-stone-600">12</div>
+                        
+                        <div class="p-2 text-center text-sm text-stone-600">13</div>
+                        <div class="p-2 text-center text-sm text-stone-600">14</div>
+                        <div class="p-2 text-center text-sm text-stone-600">15</div>
+                        <div class="p-2 text-center text-sm text-stone-600">16</div>
+                        <div class="p-2 text-center text-sm text-stone-600">17</div>
+                        <div class="p-2 text-center text-sm text-stone-600">18</div>
+                        <div class="p-2 text-center text-sm text-stone-600">19</div>
+                        
+                        <div class="p-2 text-center text-sm text-stone-600">20</div>
+                        <div class="p-2 text-center text-sm text-stone-600">21</div>
+                        <div class="p-2 text-center text-sm text-stone-600">22</div>
+                        <div class="p-2 text-center text-sm text-stone-600">23</div>
+                        <div class="p-2 text-center text-sm text-green-600 font-semibold bg-green-100 rounded">24</div>
+                        <div class="p-2 text-center text-sm text-stone-600">25</div>
+                        <div class="p-2 text-center text-sm text-stone-600">26</div>
+                        
+                        <div class="p-2 text-center text-sm text-stone-600">27</div>
+                        <div class="p-2 text-center text-sm text-stone-600">28</div>
+                        <div class="p-2 text-center text-sm text-stone-600">29</div>
+                        <div class="p-2 text-center text-sm text-stone-600">30</div>
+                        <div class="p-2 text-center text-sm text-stone-600">31</div>
+                        <div class="p-2 text-center text-sm text-stone-400">1</div>
+                        <div class="p-2 text-center text-sm text-stone-400">2</div>
+                    </div>
+                    
+                    <!-- Legend -->
+                    <div class="flex items-center justify-center space-x-6 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span class="text-stone-600">Present</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <span class="text-stone-600">Absent</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-amber-500 rounded-full"></div>
+                            <span class="text-stone-600">Late</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                            <span class="text-stone-600">Holiday</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Records -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg font-semibold text-stone-800">Recent Records</h2>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-amber-600 hover:text-amber-700 text-sm font-medium">
+                                <i class="fas fa-download mr-1"></i>Export
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-stone-200">
+                                    <th class="text-left py-3 px-4 font-medium text-stone-700">Date</th>
+                                    <th class="text-left py-3 px-4 font-medium text-stone-700">Clock In</th>
+                                    <th class="text-left py-3 px-4 font-medium text-stone-700">Clock Out</th>
+                                    <th class="text-left py-3 px-4 font-medium text-stone-700">Total Hours</th>
+                                    <th class="text-left py-3 px-4 font-medium text-stone-700">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-stone-100 hover:bg-stone-50">
+                                    <td class="py-3 px-4 text-sm text-stone-800">Oct 24, 2025</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">9:00 AM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">5:30 PM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">8.5h</td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Present</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-stone-100 hover:bg-stone-50">
+                                    <td class="py-3 px-4 text-sm text-stone-800">Oct 23, 2025</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">9:15 AM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">5:45 PM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">8.5h</td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full">Late</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-stone-100 hover:bg-stone-50">
+                                    <td class="py-3 px-4 text-sm text-stone-800">Oct 22, 2025</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">8:55 AM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">6:00 PM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">9.1h</td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Present</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-stone-100 hover:bg-stone-50">
+                                    <td class="py-3 px-4 text-sm text-stone-800">Oct 21, 2025</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">9:00 AM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">5:00 PM</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">8.0h</td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Present</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-stone-100 hover:bg-stone-50">
+                                    <td class="py-3 px-4 text-sm text-stone-800">Oct 20, 2025</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">-</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">-</td>
+                                    <td class="py-3 px-4 text-sm text-stone-600">-</td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Holiday</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Today's Summary -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Today's Summary</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Clock In</span>
+                            <span class="font-semibold text-stone-800" id="todayClockIn">9:00 AM</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Current Status</span>
+                            <span class="font-semibold text-green-600" id="todayStatus">Working</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Hours Today</span>
+                            <span class="font-semibold text-stone-800" id="todayHours">6.5h</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-stone-600">Break Time</span>
+                            <span class="font-semibold text-amber-600" id="todayBreakTime">1h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Hours Chart -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Weekly Hours</h3>
+                    <div class="h-48">
+                        <canvas id="weeklyHoursChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-coffee mr-2"></i>Start Break
+                        </button>
+                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-calendar-plus mr-2"></i>Request Leave
+                        </button>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                            <i class="fas fa-file-alt mr-2"></i>View Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Attendance Policy -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-6">
+                    <h3 class="text-lg font-semibold text-stone-800 mb-4">Attendance Policy</h3>
+                    <div class="space-y-3 text-sm text-stone-600">
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-check-circle text-green-500 mt-0.5"></i>
+                            <span>Work hours: 9:00 AM - 5:00 PM</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-clock text-amber-500 mt-0.5"></i>
+                            <span>Grace period: 15 minutes</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-coffee text-blue-500 mt-0.5"></i>
+                            <span>Break time: 1 hour</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i class="fas fa-calendar text-purple-500 mt-0.5"></i>
+                            <span>5 working days per week</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // My Attendance page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize weekly hours chart
+            const ctx = document.getElementById('weeklyHoursChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Hours Worked',
+                        data: [8.5, 8.0, 9.1, 8.0, 0, 0, 0],
+                        backgroundColor: '#F59E0B',
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                stepSize: 2
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Clock In/Out functionality
+            let isClockedIn = true; // Assuming already clocked in
+            const clockToggleBtn = document.getElementById('clockToggleBtn');
+            const currentStatus = document.getElementById('currentStatus');
+            
+            clockToggleBtn.addEventListener('click', function() {
+                if (isClockedIn) {
+                    // Clock Out
+                    isClockedIn = false;
+                    clockToggleBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Clock In';
+                    clockToggleBtn.className = 'bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors';
+                    currentStatus.textContent = 'Clocked Out';
+                    currentStatus.className = 'text-lg font-semibold text-red-600';
+                    showNotification('Successfully clocked out!', 'success');
+                } else {
+                    // Clock In
+                    isClockedIn = true;
+                    clockToggleBtn.innerHTML = '<i class="fas fa-stop mr-2"></i>Clock Out';
+                    clockToggleBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-colors';
+                    currentStatus.textContent = 'Clocked In';
+                    currentStatus.className = 'text-lg font-semibold text-green-600';
+                    showNotification('Successfully clocked in!', 'success');
+                }
+            });
+
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                    type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' :
+                    type === 'error' ? 'bg-red-100 text-red-800 border border-red-200' :
+                    'bg-blue-100 text-blue-800 border border-blue-200'
+                }`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

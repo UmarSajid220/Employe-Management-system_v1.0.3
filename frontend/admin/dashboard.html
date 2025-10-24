@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - A Square Skills Academy EMS</title>
+    <meta name="description" content="Admin Dashboard for Employee Management System">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/styles.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+</head>
+<body>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Alert Container -->
+    <div class="alert-container"></div>
+    
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-dark-navy rounded-lg flex items-center justify-center text-accent-gold font-bold text-lg">
+                    AS
+                </div>
+                <div>
+                    <div class="font-bold text-dark-navy">A Square Skills</div>
+                    <div class="text-sm text-muted">Academy EMS</div>
+                </div>
+            </div>
+        </div>
+        
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="dashboard.html" class="sidebar-nav-link active">
+                    <iconify-icon icon="mdi:view-dashboard" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="employees.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:account-group" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Employees</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="tasks.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:clipboard-check" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Tasks</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="attendance.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:clock-time-eight" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Attendance</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="leaves.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:calendar-remove" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Leaves</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="reports.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:file-chart" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Reports</span>
+                </a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="settings.html" class="sidebar-nav-link">
+                    <iconify-icon icon="mdi:cog" width="20" height="20"></iconify-icon>
+                    <span class="ml-3">Settings</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="mt-auto pt-6 border-t border-neutral">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-neutral rounded-full flex items-center justify-center">
+                    <iconify-icon icon="mdi:account" width="20" height="20"></iconify-icon>
+                </div>
+                <div>
+                    <div class="font-medium text-sm" data-user-name>Admin</div>
+                    <div class="text-xs text-muted" data-user-role>Administrator</div>
+                </div>
+            </div>
+            <button class="w-full btn btn-secondary btn-sm" data-logout>
+                <iconify-icon icon="mdi:logout" width="16" height="16"></iconify-icon>
+                <span class="ml-2">Logout</span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-dark-navy">Dashboard</h1>
+                <p class="text-muted">Welcome back, <span data-user-name>Admin</span>!</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button class="btn btn-secondary btn-sm" data-theme-toggle title="Toggle theme">
+                    <iconify-icon icon="mdi:theme-light-dark" width="16" height="16"></iconify-icon>
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="location.reload()">
+                    <iconify-icon icon="mdi:refresh" width="16" height="16"></iconify-icon>
+                    <span class="ml-2">Refresh</span>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Stats Grid -->
+        <section class="stats-grid mb-8">
+            <div class="stats-card">
+                <div class="stats-number" id="totalEmployees">--</div>
+                <div class="stats-label">Total Employees</div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-number" id="activeTasks">--</div>
+                <div class="stats-label">Active Tasks</div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-number" id="pendingLeaves">--</div>
+                <div class="stats-label">Pending Leaves</div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-number" id="attendanceToday">--</div>
+                <div class="stats-label">Present Today</div>
+            </div>
+        </section>
+        
+        <!-- Charts Section -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- Attendance Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Attendance Overview</h3>
+                    <p class="text-muted">Last 7 days attendance trend</p>
+                </div>
+                <div class="card-body">
+                    <canvas id="attendanceChart" height="300"></canvas>
+                </div>
+            </div>
+            
+            <!-- Task Status Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Task Status Distribution</h3>
+                    <p class="text-muted">Current task breakdown by status</p>
+                </div>
+                <div class="card-body">
+                    <canvas id="taskChart" height="300"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Recent Activity -->
+        <section class="card">
+            <div class="card-header flex items-center justify-between">
+                <div>
+                    <h3 class="card-title">Recent Activity</h3>
+                    <p class="text-muted">Latest system activities and updates</p>
+                </div>
+                <button class="btn btn-secondary btn-sm" onclick="loadRecentActivity()">
+                    <iconify-icon icon="mdi:refresh" width="16" height="16"></iconify-icon>
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="recentActivity" class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 bg-neutral rounded-lg">
+                        <div class="loading"></div>
+                        <span class="text-muted">Loading recent activity...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Quick Actions -->
+        <section class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="employees.html" class="btn btn-primary">
+                    <iconify-icon icon="mdi:account-plus" width="20" height="20"></iconify-icon>
+                    <span class="ml-2">Add Employee</span>
+                </a>
+                <a href="tasks.html" class="btn btn-secondary">
+                    <iconify-icon icon="mdi:clipboard-plus" width="20" height="20"></iconify-icon>
+                    <span class="ml-2">Create Task</span>
+                </a>
+                <a href="attendance.html" class="btn btn-accent">
+                    <iconify-icon icon="mdi:clock-check" width="20" height="20"></iconify-icon>
+                    <span class="ml-2">View Attendance</span>
+                </a>
+                <a href="reports.html" class="btn btn-info">
+                    <iconify-icon icon="mdi:file-chart" width="20" height="20"></iconify-icon>
+                    <span class="ml-2">Generate Report</span>
+                </a>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden lg:hidden"></div>
+    
+    <!-- Scripts -->
+    <script src="../js/app.js"></script>
+    
+    <script>
+        class AdminDashboard {
+            constructor() {
+                this.app = window.emsApp;
+                this.charts = {};
+                this.init();
+            }
+            
+            async init() {
+                await this.loadDashboardData();
+                this.initializeCharts();
+                this.setupEventListeners();
+            }
+            
+            async loadDashboardData() {
+                try {
+                    // Load all dashboard data in parallel
+                    const [stats, recentActivity] = await Promise.all([
+                        this.loadStats(),
+                        this.loadRecentActivity()
+                    ]);
+                    
+                    this.updateStats(stats);
+                    this.updateRecentActivity(recentActivity);
+                } catch (error) {
+                    console.error('Error loading dashboard data:', error);
+                    this.app.showAlert('Failed to load dashboard data', 'danger');
+                }
+            }
+            
+            async loadStats() {
+                const response = await fetch(`${this.app.apiBase}/dashboard/stats`, {
+                    headers: this.app.getAuthHeaders()
+                });
+                
+                if (!response.ok) throw new Error('Failed to load stats');
+                return response.json();
+            }
+            
+            async loadRecentActivity() {
+                const response = await fetch(`${this.app.apiBase}/dashboard/activity`, {
+                    headers: this.app.getAuthHeaders()
+                });
+                
+                if (!response.ok) throw new Error('Failed to load activity');
+                return response.json();
+            }
+            
+            updateStats(stats) {
+                document.getElementById('totalEmployees').textContent = stats.total_employees || 0;
+                document.getElementById('activeTasks').textContent = stats.active_tasks || 0;
+                document.getElementById('pendingLeaves').textContent = stats.pending_leaves || 0;
+                document.getElementById('attendanceToday').textContent = stats.attendance_today || 0;
+            }
+            
+            updateRecentActivity(activities) {
+                const container = document.getElementById('recentActivity');
+                
+                if (!activities || activities.length === 0) {
+                    container.innerHTML = '<p class="text-muted text-center py-8">No recent activity</p>';
+                    return;
+                }
+                
+                container.innerHTML = activities.map(activity => `
+                    <div class="flex items-center gap-4 p-4 bg-neutral rounded-lg hover:bg-opacity-80 transition-colors">
+                        <div class="w-10 h-10 bg-accent-gold rounded-full flex items-center justify-center text-dark-navy font-semibold">
+                            ${activity.user_initials}
+                        </div>
+                        <div class="flex-1">
+                            <div class="font-medium">${activity.description}</div>
+                            <div class="text-sm text-muted">${activity.timestamp}</div>
+                        </div>
+                        <div class="text-xs text-muted">
+                            ${activity.action_type}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            initializeCharts() {
+                this.initAttendanceChart();
+                this.initTaskChart();
+            }
+            
+            initAttendanceChart() {
+                const ctx = document.getElementById('attendanceChart').getContext('2d');
+                
+                // Mock data for demonstration
+                const attendanceData = {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Present',
+                        data: [45, 52, 48, 55, 50, 20, 5],
+                        backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                        borderColor: 'rgba(255, 215, 0, 1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }, {
+                        label: 'Absent',
+                        data: [5, 3, 7, 2, 5, 2, 1],
+                        backgroundColor: 'rgba(220, 53, 69, 0.2)',
+                        borderColor: 'rgba(220, 53, 69, 1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }]
+                };
+                
+                this.charts.attendance = new Chart(ctx, {
+                    type: 'line',
+                    data: attendanceData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+            
+            initTaskChart() {
+                const ctx = document.getElementById('taskChart').getContext('2d');
+                
+                // Mock data for demonstration
+                const taskData = {
+                    labels: ['Pending', 'In Progress', 'Completed', 'Overdue'],
+                    datasets: [{
+                        data: [15, 25, 45, 8],
+                        backgroundColor: [
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(23, 162, 184, 0.8)',
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(220, 53, 69, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(23, 162, 184, 1)',
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(220, 53, 69, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+                
+                this.charts.tasks = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: taskData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            }
+            
+            setupEventListeners() {
+                // Auto-refresh dashboard every 5 minutes
+                setInterval(() => {
+                    this.loadDashboardData();
+                }, 5 * 60 * 1000);
+                
+                // Handle window resize for charts
+                window.addEventListener('resize', () => {
+                    Object.values(this.charts).forEach(chart => {
+                        if (chart) chart.resize();
+                    });
+                });
+            }
+        }
+        
+        // Initialize dashboard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            new AdminDashboard();
+        });
+        
+        // Global function for refresh button
+        function loadRecentActivity() {
+            window.dashboard.loadDashboardData();
+        }
+    </script>
+</body>
+</html>
